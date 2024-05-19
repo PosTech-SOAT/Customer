@@ -23,7 +23,11 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "CUSTOMER_ENV=$CUSTOMER_ENV" > .env
+          echo "DB_HOST=postech.ufjbi3d.mongodb.net
+          DB_PORT=27017
+          DB_USER=root
+          DB_PASS=postech
+          DB_NAME=postech_custumer" > .env
           cat .env
 
       - name: Run unit tests
