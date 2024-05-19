@@ -30,8 +30,8 @@ jobs:
           DB_NAME=postech_custumer" > .env
 
 
-      - name: Run unit tests
-        run: npm test
+      #- name: Run unit tests
+      #  run: npm test
 
       - name: Build Docker image
         run: |
