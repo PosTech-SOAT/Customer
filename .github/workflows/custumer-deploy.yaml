@@ -9,6 +9,9 @@ jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
 
+    env:
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -16,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: '14' # ou a versão desejada do Node.js
 
       - name: Install dependencies
         run: npm install
