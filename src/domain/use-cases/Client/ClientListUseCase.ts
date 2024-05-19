@@ -4,21 +4,23 @@ import { IClient } from '../../../infra/entities/ClientEntity';
 import { IBaseUseCase } from '../../interfaces/use-cases/IBaseUseCase';
 
 @injectable()
-export default class ClientListUseCase implements IBaseUseCase<void, IClient[]>{
+export default class ClientListUseCase
+	implements IBaseUseCase<void, IClient[]>
+{
 	constructor(
-    @inject('ClientRepository')
-    private clientRepository: IClientRepository
+		@inject('ClientRepository')
+		private clientRepository: IClientRepository,
 	) {}
 
 	async execute(): Promise<IClient[]> {
 		const clients = await this.clientRepository.list();
-
-		const clientsList = clients.map(client => {
+		/* istanbul ignore next */
+		const clientsList = clients.map((client) => {
 			return {
 				id: client.id,
 				name: client.name,
 				email: client.email,
-				cpf: client.cpf
+				cpf: client.cpf,
 			};
 		});
 

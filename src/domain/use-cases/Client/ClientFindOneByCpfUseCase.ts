@@ -4,10 +4,12 @@ import { IClient } from '../../../infra/entities/ClientEntity';
 import { IBaseUseCase } from '../../interfaces/use-cases/IBaseUseCase';
 
 @injectable()
-export default class ClientFindOneByCpfUseCase implements IBaseUseCase<string, IClient | null>{
+export default class ClientFindOneByCpfUseCase
+	implements IBaseUseCase<string, IClient | null>
+{
 	constructor(
-    @inject('ClientRepository')
-    private clientRepository: IClientRepository
+		@inject('ClientRepository')
+		private clientRepository: IClientRepository,
 	) {}
 
 	async execute(cpf: string): Promise<IClient | null> {

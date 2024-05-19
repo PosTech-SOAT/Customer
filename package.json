@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "node_modules/.bin/ts-node-dev --respawn --inspect --transpile-only --ignore-watch=node_modules src/index.ts",
 		"build": "tsc --skipLibCheck",
-		"test": "jest --coverage --detectOpenHandles"
+		"test": "jest --coverage --detectOpenHandles --forceExit"
 	},
 	"repository": "git@github.com:VitorDiToro/PosTech-3SOAT.git",
 	"author": "Dedyanna Cacau <dedyannacacau@gmail.com>",

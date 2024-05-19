@@ -1,66 +1,109 @@
-import 'reflect-metadata';
-import { ClientRepository } from './domain/repositories/ClientRepository';
+import { faker } from '@faker-js/faker';
+import { ClientModel } from './domain/entities/Client';
 import { CreateClientParams } from './domain/interfaces/repositories/IClientRepository';
+import { ClientRepository } from './domain/repositories/ClientRepository';
+
+// Mock ClientModel
+jest.mock('./domain/entities/Client', () => {
+	const mockClientInstance = {
+		save: jest.fn(),
+	};
+
+	const ClientModel: any = jest.fn(() => mockClientInstance);
+
+	ClientModel.findOne = jest.fn();
+	ClientModel.findById = jest.fn();
+	ClientModel.find = jest.fn();
+	ClientModel.findOneAndUpdate = jest.fn();
+
+	return { ClientModel };
+});
 
 describe('ClientRepository', () => {
-	const clientRepo: ClientRepository = new ClientRepository();
-	// beforeAll(() => {
-	// 	// Configuração antes dos testes
-	// 	clientRepo = container.resolve<ClientRepository>('ClientRepository');
-	// });
-	describe('getById', () => {
-		it('deve retornar um cliente existente', async () => {
-			// Given
-			const clientId = '123';
-
-			// When
-			const client = await clientRepo.findById(clientId);
-
-			// Then
-			expect(!!client).toBeTruthy();
-			expect(client!.id).toEqual(clientId);
-		});
-
-		it('deve retornar null para um cliente inexistente', async () => {
-			// Given
-			const clientId = '999'; // ID de cliente que não existe
-
-			// When
-			const client = await clientRepo.findById(clientId);
-
-			// Then
-			expect(client).toBeNull();
-		});
+	let clientRepository: ClientRepository;
+	const params: CreateClientParams = {
+		name: faker.person.firstName(),
+		email: faker.internet.email(),
+		cpf: faker.number.int({ min: 11111111111, max: 99999999999 }).toString(),
+	};
+	beforeEach(() => {
+		clientRepository = new ClientRepository();
+		jest.clearAllMocks();
 	});
 
-	describe('getAll', () => {
-		it('deve retornar uma lista de clientes', async () => {
-			// When
-			const clients = await clientRepo.list();
+	it('should create a new client', async () => {
+		const params: CreateClientParams = {
+			name: 'John Doe',
+			email: faker.internet.email(),
+			cpf: '12345678900',
+		};
+		const mockClientInstance = new ClientModel();
+		(mockClientInstance.save as jest.Mock).mockResolvedValue(params);
 
-			// Then
-			expect(clients).toBe('array');
-		});
+		const client = await clientRepository.createClient(params);
 
-		// Outros testes para getAll
+		expect(mockClientInstance.save).toHaveBeenCalled();
+		expect(client).toEqual(params);
 	});
 
-	describe('create', () => {
-		it('deve criar um novo cliente', async () => {
-			// Given
-			const newClient: CreateClientParams = {
-				name: 'Novo Cliente',
-				email: 'a@b.com',
-				cpf: '12345678911',
-			};
+	it('should find a client by CPF', async () => {
+		const cpf = params.cpf;
+		const client = { id: '1', name: 'John Doe', email: params.email, cpf: cpf };
 
-			// When
-			const client = await clientRepo.createClient(newClient);
-
-			// Then
-			const createdClient = await clientRepo.findById(client.id);
-			expect(!!createdClient).toBeTruthy();
-			expect(createdClient!.name).toEqual(newClient.name);
+		(ClientModel.findOne as jest.Mock).mockReturnValueOnce({
+			exec: jest.fn().mockResolvedValue(client),
 		});
+
+		const foundClient = await clientRepository.findByCPF(cpf);
+
+		expect(ClientModel.findOne).toHaveBeenCalledWith({ cpf });
+		expect(foundClient).toEqual(client);
+	});
+
+	it('should find a client by ID', async () => {
+		const id = '1';
+		const client = { id: '1', name: 'John Doe', cpf: '12345678900' };
+
+		(ClientModel.findById as jest.Mock).mockReturnValueOnce({
+			exec: jest.fn().mockResolvedValue(client),
+		});
+
+		const foundClient = await clientRepository.findById(id);
+
+		expect(ClientModel.findById).toHaveBeenCalledWith(id);
+		expect(foundClient).toEqual(client);
+	});
+
+	it('should list all clients', async () => {
+		const clients = [
+			{ id: '1', name: 'John Doe', cpf: '12345678900' },
+			{ id: '2', name: 'Jane Doe', cpf: '98765432100' },
+		];
+
+		(ClientModel.find as jest.Mock).mockReturnValueOnce({
+			exec: jest.fn().mockResolvedValue(clients),
+		});
+
+		const allClients = await clientRepository.list();
+
+		expect(ClientModel.find).toHaveBeenCalled();
+		expect(allClients).toEqual(clients);
+	});
+
+	it('should update a client by CPF', async () => {
+		const cpf = '12345678900';
+		const data: CreateClientParams = {
+			name: 'John Doe Updated',
+			cpf: '12345678900',
+			email: 'a@b.com',
+		};
+
+		(ClientModel.findOneAndUpdate as jest.Mock).mockReturnValueOnce({
+			exec: jest.fn().mockResolvedValue(null),
+		});
+
+		await clientRepository.update(cpf, data);
+
+		expect(ClientModel.findOneAndUpdate).toHaveBeenCalledWith({ cpf }, data);
 	});
 });
