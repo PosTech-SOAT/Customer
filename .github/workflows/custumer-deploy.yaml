@@ -29,10 +29,6 @@ jobs:
           DB_PASS=postech
           DB_NAME=postech_custumer" > .env
 
-
-      #- name: Run unit tests
-      ##  run: npm test
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -47,15 +43,13 @@ jobs:
 
       - name: Build and push Docker image
         run: |
+          docker buildx create --use
           docker buildx build --platform linux/amd64,linux/arm64 -t santanarael/custumer-fiap:latest --push .
 
       - name: Install kubectl
         run: |
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
           sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-          chmod +x kubectl
-          mkdir -p ~/.local/bin
-          mv ./kubectl ~/.local/bin/kubectl
 
       - name: Configure AWS credentials
         run: |
