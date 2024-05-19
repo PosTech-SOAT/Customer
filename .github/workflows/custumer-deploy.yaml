@@ -1,4 +1,4 @@
-name: Deploy to Kubernetes
+name: Build, Test, and Deploy to Kubernetes
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,13 +16,28 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18' # ou a versão do Node.js que você está usando
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
 
       - name: Run unit tests
         run: npm test
+
+      - name: Build Docker image
+        run: |
+          docker build -t custumer-fiap .  
+        
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker tag custumer-fiap:latest santanarael/custumer-fiap:latest
+          docker push santanarael/custumer-fiap:latest
 
       - name: Install kubectl
         run: |
@@ -49,7 +64,8 @@ jobs:
         run: |
           kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
           sleep 10s
-          kubectl apply -f k8s/custumer-deployment.yaml
+          kubectl set image deployment/custumer-deployment custumer-container=${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
           sleep 10s
           kubectl apply -f k8s/custumer-hpa.yaml
           echo "http://$(kubectl get svc custumer-service -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}'):32323/api/clients"
+
