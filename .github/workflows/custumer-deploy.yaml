@@ -25,6 +25,12 @@ jobs:
         run: |
           echo "CUSTUMER_ENV=${{ secrets.CUSTOMER_ENV }}" > .env
 
+      - name: ver pasta do .env
+        run: ls
+
+      - name: ver conteudo do .env
+        run: cat .env
+
       - name: Run unit tests
         run: npm test
 
