@@ -21,6 +21,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Create .env file
+        run: |
+          echo "CUSTUMER_ENV=${{ secrets.CUSTOMER_ENV }}" > .env
+
       - name: Run unit tests
         run: npm test
 
@@ -38,10 +42,6 @@ jobs:
         run: |
           docker tag custumer-fiap:latest santanarael/custumer-fiap:latest
           docker push santanarael/custumer-fiap:latest
-
-      - name: Create .env file
-        run: |
-          echo "CUSTUMER_ENV=${{ secrets.CUSTOMER_ENV }}" > .env
 
       - name: Install kubectl
         run: |
