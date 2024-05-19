@@ -29,11 +29,6 @@ jobs:
           DB_PASS=postech
           DB_NAME=postech_custumer" > .env
 
-      - name: ver .env
-        run: cat .env
-
-      - name: ver pasta
-        run: ls
 
       - name: Run unit tests
         run: npm test
