@@ -23,13 +23,8 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "${{ secrets.CUSTOMER_ENV }}" > .env
-
-      - name: ver pasta do .env
-        run: ls
-
-      - name: ver conteudo do .env
-        run: cat .env
+          echo "CUSTOMER_ENV=$CUSTOMER_ENV" > .env
+          cat .env
 
       - name: Run unit tests
         run: npm test
