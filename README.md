@@ -1,4 +1,5 @@
 # Microsserviço de Cliente (customer)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=PosTech-SOAT_Customer)](https://sonarcloud.io/summary/new_code?id=PosTech-SOAT_Customer)
 
 ## Visão Geral
 
