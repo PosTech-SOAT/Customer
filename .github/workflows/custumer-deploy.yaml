@@ -21,9 +21,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run unit tests
-        run: npm run test
-
       - name: Create .env file
         run: |
           echo "DB_HOST=postech.ufjbi3d.mongodb.net
@@ -31,6 +28,9 @@ jobs:
           DB_USER=root
           DB_PASS=postech
           DB_NAME=postech_custumer" > .env
+
+      - name: Run unit tests
+        run: npm run test
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
