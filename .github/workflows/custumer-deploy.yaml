@@ -25,9 +25,12 @@ jobs:
         run: npm run test
 
       - name: Create .env file
-        run: | 
-            echo "${{ secrets.CUSTUMER_ENV }}" > .env
-          
+        run: |
+          echo "DB_HOST=postech.ufjbi3d.mongodb.net
+          DB_PORT=27017
+          DB_USER=root
+          DB_PASS=postech
+          DB_NAME=postech_custumer" > .env
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
