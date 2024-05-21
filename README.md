@@ -1,6 +1,9 @@
 # Microsserviço de Cliente (customer)
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=PosTech-SOAT_Customer)](https://sonarcloud.io/summary/new_code?id=PosTech-SOAT_Customer)
 
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=PosTech-SOAT_Customer&metric=coverage)](https://sonarcloud.io/summary/new_code?id=PosTech-SOAT_Customer)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=PosTech-SOAT_Customer&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=PosTech-SOAT_Customer)
+
 ## Visão Geral
 
 Este repositório contém o código-fonte e os recursos necessários para o microsserviço de Cliente do projeto de um Sistema de Controle de Pedidos, desenvolvido durante a Pós-graduação em Arquitetura de Software da FIAP. Este microsserviço faz parte de uma aplicação maior construída em Node.js com TypeScript, Docker e Kubernetes.
