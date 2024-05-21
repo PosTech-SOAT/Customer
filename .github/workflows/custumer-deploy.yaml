@@ -29,10 +29,14 @@ jobs:
           DB_PASS=postech
           DB_NAME=postech_custumer" > .env
 
+      - name: Run unit tests
+        run: npm test
 
-      #- name: Run unit tests
-      #  run: npm test
-
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+      
       - name: Build Docker image
         run: |
           docker build -t custumer-fiap .  
