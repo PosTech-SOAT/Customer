@@ -30,11 +30,11 @@ spec:
               value: postech_custumer
           resources:
             requests:
-              memory: '128Mi' # Memória inicial / MI = milicores (1 core = 1000 milicores)
+              memory: '128Mi' # Memória inicial
               cpu: '100m' # CPU inicial
             limits:
               memory: '628Mi' # Limite máximo de memória
-              cpu: '300m' # Limite máximo de CPU  / M = megabytes
+              cpu: '300m' # Limite máximo de CPU
 ---
 apiVersion: v1
 kind: Service
