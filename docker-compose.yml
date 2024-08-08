@@ -1,12 +1,12 @@
 version: '3.9'
 services:
-  app:
+  postech_customer_container:
     build: .
     container_name: postech_customer_container
     ports:
       - 3001:3001
     environment:
-      - DB_HOST=fiap-customer.zkrx8sl.mongodb.net
+      - DB_HOST=postech.ufjbi3d.mongodb.net
       - DB_PORT=27017
       - DB_USER=root
       - DB_PASS=postech
@@ -16,6 +16,21 @@ services:
     networks:
       - fiap-network
 
+  rabbitmq_choreography:
+    image: "rabbitmq:3.8-management-alpine"
+    container_name: rabbitmq_choreography
+    hostname: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - "./.rabbitmq_data:/var/lib/rabbitmq/mnesia"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    networks:
+      - fiap-network
+
 networks:
   fiap-network:
-    external: true
+    name: fiap_network
