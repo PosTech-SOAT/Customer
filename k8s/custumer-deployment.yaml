@@ -48,3 +48,4 @@ spec:
       port: 32323
       targetPort: 3001
   type: LoadBalancer
+	
