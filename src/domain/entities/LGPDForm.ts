@@ -16,7 +16,6 @@ const lgpdFormSchema: Schema = new Schema(
 		name: { type: String, required: true },
 		address: { type: String, required: true },
 		phone: { type: String, required: true },
-		cpf: { type: String, required: true },
 		exclusion: { type: Boolean, required: true },
 	},
 	{ timestamps: true },

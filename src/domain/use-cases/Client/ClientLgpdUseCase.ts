@@ -36,8 +36,13 @@ export default class ClientLgpdUseCase
 			const handleConclusion = async (id: string) => {
 				try {
 					await this.clientRepository.delete(id);
-					await this.clientRepository.createLGPDReport(id, form);
-				} catch {
+					const lgpdform = await this.clientRepository.createLGPDReport(
+						id,
+						form,
+					);
+					console.log(lgpdform);
+				} catch (error) {
+					console.error(error);
 					// handle update of LGPD table
 				}
 			};
