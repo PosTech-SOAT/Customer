@@ -28,6 +28,14 @@ spec:
               value: 'postech'
             - name: DB_NAME
               value: postech_custumer
+            - name: AMQP_USER
+              value: guest
+            - name: AMQP_PASS
+              value: guest
+            - name: AMQP_HOST
+              value: http://a828ed4fc239c47ae9e5d106ff020fac-1949601428.us-east-1.elb.amazonaws.com
+            - name: AMQP_PORT
+              value: '5672'
           resources:
             requests:
               memory: '128Mi' # Memória inicial
