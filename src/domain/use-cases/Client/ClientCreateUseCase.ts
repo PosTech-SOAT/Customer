@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { inject, injectable } from 'tsyringe';
 import {
 	CreateClientParams,
@@ -28,6 +29,6 @@ export default class ClientCreateUseCase
 			cpf: params.cpf,
 		});
 
-		return client;
+		return client as IClient;
 	}
 }
