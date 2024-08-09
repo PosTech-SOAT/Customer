@@ -1,5 +1,10 @@
+import { LGPDFormDto } from '../../infra/dto/LGPDFormDto';
 import { ClientModel, IClient } from '../entities/Client';
-import { CreateClientParams, IClientRepository } from '../interfaces/repositories/IClientRepository';
+import { ILGPDForm, LgpdFormModel } from '../entities/LGPDForm';
+import {
+	CreateClientParams,
+	IClientRepository,
+} from '../interfaces/repositories/IClientRepository';
 
 export class ClientRepository implements IClientRepository {
 	async createClient(params: CreateClientParams): Promise<IClient> {
@@ -21,5 +26,17 @@ export class ClientRepository implements IClientRepository {
 
 	async update(cpf: string, data: CreateClientParams): Promise<void> {
 		await ClientModel.findOneAndUpdate({ cpf }, data).exec();
+	}
+
+	async delete(id: string): Promise<void> {
+		await ClientModel.deleteOne({ _id: id }).exec();
+	}
+
+	async createLGPDReport(
+		clientId: string,
+		form: LGPDFormDto,
+	): Promise<ILGPDForm> {
+		const lgpdForm = new LgpdFormModel({ clientId, ...form });
+		return lgpdForm.save();
 	}
 }

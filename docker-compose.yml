@@ -11,6 +11,10 @@ services:
       - DB_USER=root
       - DB_PASS=postech
       - DB_NAME=fiap-customer
+      - AMQP_USER=admin
+      - AMQP_PASS=admin
+      - AMQP_HOST=rabbitmq_choreography
+      - AMQP_PORT=5672
     volumes:
       - .:/usr/app
     networks:
